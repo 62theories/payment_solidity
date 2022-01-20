@@ -80,6 +80,10 @@ contract Dealer {
         isNotCanceled(orderId)
     {
         orderSells[msg.sender][orderId].isCanceled = true;
+        orderSells[msg.sender][orderId].tokenName.transfer(
+            msg.sender,
+            orderSells[msg.sender][orderId].amount
+        );
     }
 
     function matchOrder(uint256 orderId)
