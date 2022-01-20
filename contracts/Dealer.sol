@@ -24,6 +24,8 @@ contract Dealer {
     mapping(uint256 => OrderBuy) orderBuys;
     mapping(address => bool) admins;
 
+    event orderSellCreated(uint256 _orderId);
+
     constructor(address _admin) {
         admins[_admin] = true;
     }
@@ -71,6 +73,7 @@ contract Dealer {
             isMatched: false,
             isCanceled: false
         });
+        emit orderSellCreated(newOrderId);
         return newOrderId;
     }
 

@@ -54,15 +54,14 @@ describe("sell order", async function () {
     await myTokenContract
       .connect(tokenOwner)
       .approve(dealerContract.address, 10);
-    const sellOrderId = await dealerContract
+    await dealerContract
       .connect(tokenOwner)
       .createSellOrder(myTokenContract.address, 10, 5);
-    // must use event
-    // console.log(sellOrderId);
-    // assert(sellOrderId.length > 0);
-    // const buyOrderId = await dealerContract
-    //   .connect(adminOne)
-    //   .matchOrder(sellOrderId);
-    // assert(buyOrderId.length > 0);
+    const sellOrderId = await new Promise((resolve) => {
+      dealerContract.on("orderSellCreated", (orderId) => {
+        resolve(orderId);
+      });
+    });
+    assert(sellOrderId !== null);
   });
 });
